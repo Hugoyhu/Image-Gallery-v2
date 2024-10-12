@@ -21,9 +21,10 @@ interface Image {
 }
 interface ImageProps {
    images: Image[];
+   deviceType: string;
 }
 
-const Images: React.FC<ImageProps> = ({ images }) => {
+const Images: React.FC<ImageProps> = ({ images , deviceType }) => {
 
     let photoList : { [key: string]: any }[] = [];
 
@@ -47,97 +48,34 @@ const Images: React.FC<ImageProps> = ({ images }) => {
         )
     }
 
-    let column0 = [];
-    let column1 = [];
-    let column2 = [];
+    if (deviceType == 'mobile') {
+      // one column only
+      return generateHTML(1, photoList, []);
+    } else {
+      let column0 = [];
+      let column1 = [];
 
-    for (let i = 0; i < photoList.length; i++) {
-        let photo = photoList[i];
+      for (let i = 0; i < photoList.length; i++) {
+          let photo = photoList[i];
 
-        if (i % 2 == 0) {
-            column0.push(photo);
-        } else if (i % 2 == 1) {
-            column1.push(photo);
-        } 
+          if (i % 2 == 0) {
+              column0.push(photo);
+          } else if (i % 2 == 1) {
+              column1.push(photo);
+          } 
+      }
+      return generateHTML(2, column0, column1);
     }
 
 
-    return (
-        <div> 
-            <div className="text-center p-8">
-                <h1 className="text-3xl font-bold">HUGO HU</h1>
-                
-                <h3>
-                    <a href="https://www.hugohu.me" className="text-blue-500 underline">
-                        https://www.hugohu.me
-                    </a>
-                </h3>
-                <h3>
-                    <a href="mailto:photography@hugohu.me" className="text-blue-500 underline">
-                        photography@hugohu.me
-                    </a>
-                </h3>
-                    
 
-                {/* <h3 className="mt-6">Sort By:</h3>
-                <div className="mt-2">
-                    <a href="/" className="text-blue-500 underline">Time (Newest First)</a>&nbsp;&nbsp;
-                    <a href="/random" className="text-blue-500 underline">Random Order</a>
-                </div>
 
-                <div className="mt-4">
-                    <a href="/category/landscape" className="text-blue-500 underline">Landscape</a>&nbsp;&nbsp;
-                    <a href="/category/nature" className="text-blue-500 underline">Nature</a>&nbsp;&nbsp;
-                    <a href="/category/birds" className="text-blue-500 underline">Birds</a>&nbsp;&nbsp;
-                    <a href="/category/animals" className="text-blue-500 underline">Animals</a>&nbsp;&nbsp;
-                    <a href="/category/metropolitan" className="text-blue-500 underline">Metropolitan</a>&nbsp;&nbsp;
-                    <a href="/category/flowers" className="text-blue-500 underline">Flowers</a>&nbsp;&nbsp;
-                    <a href="/category/craft" className="text-blue-500 underline">Craft</a>&nbsp;&nbsp;
-                    <a href="/category/astrophotography" className="text-blue-500 underline">Astro</a>
-                </div> */}
-            </div>
 
-            <div className="flex flex-row justify-between">
-            <div className="flex flex-col w-1/2 px-1">
-                {column0.map((photo, index) => (
-                <div key={index} className="flex flex-col items-center mb-4">
-                <a href={photo.link} target="_blank" rel="noopener noreferrer">
-                    <img src={photo.Optimized} style={{ width: '100%' }}/>
-                </a>
-                <figcaption className="bg-black text-white italic p-2 text-center w-full">
-                    {photo.Model}, {photo.Lens}
-                    <br />
-                    {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                    <br />
-                    {photo.Location} <span>&#183;</span> {photo.Date}
-                </figcaption>
-                </div>
-                ))}
-            </div>
-        
-            <div className="flex flex-col w-1/2 px-1">
-                {column1.map((photo, index) => (
-                <div key={index} className="flex flex-col items-center mb-4">
-                <a href={photo.link} target="_blank" rel="noopener noreferrer">
-                    <img src={photo.Optimized} style={{ width: '100%' }}/>
-                </a>
-                <figcaption className="bg-black text-white italic p-2 text-center w-full">
-                    {photo.Model}, {photo.Lens}
-                    <br />
-                    {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                    <br />
-                    {photo.Location} <span>&#183;</span> {photo.Date}
-                </figcaption>
-                </div>
-                ))}
-            </div>
-            </div>
-        </div>
-      );
+    
 };
 
 export default Images;
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
         const client = await clientPromise;
         const db = client.db("Image-Gallery");
@@ -147,14 +85,118 @@ export const getServerSideProps: GetServerSideProps = async () => {
             .sort({ Time: -1 })
             .limit(150)
             .toArray();
+        
+        const userAgent = context.req.headers['user-agent'] || '';
+        const isMobile = /mobile/i.test(userAgent);
+
         return {
-            props: { images: JSON.parse(JSON.stringify(images)) },
+            props: { 
+              images: JSON.parse(JSON.stringify(images)),
+              deviceType: isMobile ? 'mobile' : 'desktop',
+            },
         };
     } catch (e) {
         console.error(e);
-        return { props: { images: [] } };
+        return { props: { images: [] , deviceType: 'unknown' } };
     }
 };
+
+function generateHTML (numRows: number, column0: { [key: string]: any }[], column1: { [key: string]: any }[]) {
+  if (numRows == 2) {
+    return (
+      <div> 
+          <div className="text-center p-8">
+              <h1 className="text-3xl font-bold">HUGO HU</h1>
+              
+              <h3>
+                  <a href="https://www.hugohu.me" className="text-blue-500 underline">
+                      https://www.hugohu.me
+                  </a>
+              </h3>
+              <h3>
+                  <a href="mailto:photography@hugohu.me" className="text-blue-500 underline">
+                      photography@hugohu.me
+                  </a>
+              </h3>
+          </div>
+
+          <div className="flex flex-row justify-between">
+          <div className="flex flex-col w-1/2 px-1">
+              {column0.map((photo, index) => (
+                <div key={index} className="flex flex-col items-center mb-4">
+                <a href={photo.link} target="_blank" rel="noopener noreferrer">
+                    <img src={photo.Optimized} style={{ width: '100%' }}/>
+                </a>
+                <figcaption className="bg-black text-white italic p-2 text-center w-full">
+                    {photo.Model}, {photo.Lens}
+                    <br />
+                    {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
+                    <br />
+                    {photo.Location} <span>&#183;</span> {photo.Date}
+                </figcaption>
+                </div>
+              ))}
+          </div>
+      
+          <div className="flex flex-col w-1/2 px-1">
+              {column1.map((photo, index) => (
+                <div key={index} className="flex flex-col items-center mb-4">
+                <a href={photo.link} target="_blank" rel="noopener noreferrer">
+                    <img src={photo.Optimized} style={{ width: '100%' }}/>
+                </a>
+                <figcaption className="bg-black text-white italic p-2 text-center w-full">
+                    {photo.Model}, {photo.Lens}
+                    <br />
+                    {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
+                    <br />
+                    {photo.Location} <span>&#183;</span> {photo.Date}
+                </figcaption>
+                </div>
+              ))}
+          </div>
+          </div>
+      </div>
+    );
+  } else {
+    return (
+      <div> 
+          <div className="text-center p-8">
+              <h1 className="text-3xl font-bold">HUGO HU</h1>
+              
+              <h3>
+                  <a href="https://www.hugohu.me" className="text-blue-500 underline">
+                      https://www.hugohu.me
+                  </a>
+              </h3>
+              <h3>
+                  <a href="mailto:photography@hugohu.me" className="text-blue-500 underline">
+                      photography@hugohu.me
+                  </a>
+              </h3>
+          </div>
+
+          <div className="flex flex-row justify-between">
+          <div className="flex flex-col w-1 px-1">
+              {column0.map((photo, index) => (
+                <div key={index} className="flex flex-col items-center mb-4">
+                <a href={photo.link} target="_blank" rel="noopener noreferrer">
+                    <img src={photo.Optimized} style={{ width: '100%' }}/>
+                </a>
+                <figcaption className="bg-black text-white italic p-2 text-center w-full">
+                    {photo.Model}, {photo.Lens}
+                    <br />
+                    {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
+                    <br />
+                    {photo.Location} <span>&#183;</span> {photo.Date}
+                </figcaption>
+                </div>
+              ))}
+          </div>
+          </div>
+      </div>
+    );
+  }
+}
 
 function formatTimecode(timecode: string): string {
     const date = new Date(timecode);
