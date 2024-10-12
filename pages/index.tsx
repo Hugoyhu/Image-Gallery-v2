@@ -102,7 +102,7 @@ const Images: React.FC<ImageProps> = ({ images }) => {
                 {column0.map((photo, index) => (
                 <div key={index} className="flex flex-col items-center mb-4">
                 <a href={photo.link} target="_blank" rel="noopener noreferrer">
-                    <img src={photo.link} style={{ width: '100%' }}/>
+                    <img src={photo.Optimized} style={{ width: '100%' }}/>
                 </a>
                 <figcaption className="bg-black text-white italic p-2 text-center w-full">
                     {photo.Model}, {photo.Lens}
@@ -119,7 +119,7 @@ const Images: React.FC<ImageProps> = ({ images }) => {
                 {column1.map((photo, index) => (
                 <div key={index} className="flex flex-col items-center mb-4">
                 <a href={photo.link} target="_blank" rel="noopener noreferrer">
-                    <img src={photo.link} style={{ width: '100%' }}/>
+                    <img src={photo.Optimized} style={{ width: '100%' }}/>
                 </a>
                 <figcaption className="bg-black text-white italic p-2 text-center w-full">
                     {photo.Model}, {photo.Lens}
