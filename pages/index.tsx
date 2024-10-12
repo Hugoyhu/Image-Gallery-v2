@@ -175,9 +175,8 @@ function generateHTML (numRows: number, column0: { [key: string]: any }[], colum
               </h3>
           </div>
 
-          <div className="flex flex-row justify-between">
-          <div className="flex flex-col w-1 px-1">
-              {column0.map((photo, index) => (
+          <div>
+            {column0.map((photo, index) => (
                 <div key={index} className="flex flex-col items-center mb-4">
                 <a href={photo.link} target="_blank" rel="noopener noreferrer">
                     <img src={photo.Optimized} style={{ width: '100%' }}/>
@@ -191,7 +190,6 @@ function generateHTML (numRows: number, column0: { [key: string]: any }[], colum
                 </figcaption>
                 </div>
               ))}
-          </div>
           </div>
       </div>
     );
