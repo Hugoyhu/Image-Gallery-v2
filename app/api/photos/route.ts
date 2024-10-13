@@ -1,15 +1,23 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth'; 
+
 export async function PUT(request: Request) {
     const updatedData = await request.json();
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     try {
         const client = await clientPromise;
         const db = client.db("Image-Gallery");
         const result = await db.collection("image-gallery").updateOne(
-            { link: updatedData.link }, // Query to find the document
-            { $set: updatedData } // Update operation
+            { link: updatedData.link }, 
+            { $set: updatedData }
         );
 
         if (result.modifiedCount > 0) {

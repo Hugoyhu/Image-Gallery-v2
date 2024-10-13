@@ -1,36 +1,9 @@
 import { useState, useRef } from 'react';
 import { useRouter } from "next/navigation";
+import { editProps } from "@/app/components/props/propInterface"
 
-interface ModalProps {
-    closeModal: () => void;
-    handleFormSubmit: (formData: 
-        {
-            link: string;
-            Model: string;
-            Lens: string;
-            Focal: string;
-            FNumber: string;
-            Exposure: string;
-            ISO: number;
-            location: string;
-            Label: string;
-            featured: boolean;
-        }) => void;
-    initialValues: {
-        link: string;
-        Model: string;
-        Lens: string;
-        Focal: string;
-        FNumber: string;
-        Exposure: string;
-        ISO: number;
-        location: string;
-        Label: string;
-        featured: boolean;
-    };
-}
 
-const Modal: React.FC<ModalProps> = ({ closeModal, handleFormSubmit, initialValues }) => {
+const editModal: React.FC<editProps> = ({ closeModal, handleFormSubmit, initialValues }) => {
     const router = useRouter();
 
     const modelRef = useRef<HTMLInputElement>(null);
@@ -43,8 +16,6 @@ const Modal: React.FC<ModalProps> = ({ closeModal, handleFormSubmit, initialValu
     const labelRef = useRef<HTMLInputElement>(null);
     const featuredRef = useRef<HTMLInputElement>(null);
 
-    console.log(initialValues);
-
     const onSubmit = (e: React.FormEvent) => {
         const formData = {
             link: initialValues.link,
@@ -54,6 +25,7 @@ const Modal: React.FC<ModalProps> = ({ closeModal, handleFormSubmit, initialValu
             FNumber: apertureRef.current?.value || "",
             Exposure: exposureRef.current?.value || "",
             ISO: Number(isoRef.current?.value) || 0,
+            
             location: locationRef.current?.value || "",
             Label: labelRef.current?.value || "",
             featured: Boolean(featuredRef.current?.value) || false,
@@ -181,4 +153,4 @@ const Modal: React.FC<ModalProps> = ({ closeModal, handleFormSubmit, initialValu
     );
 };
 
-export default Modal;
+export default editModal;
