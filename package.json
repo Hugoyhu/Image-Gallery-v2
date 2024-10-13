@@ -6,7 +6,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "mongodb": "^6.9.0",
+    "mongoose": "^8.7.1",
     "next": "latest",
     "next-auth": "^4.24.8",
     "react": "^18",
