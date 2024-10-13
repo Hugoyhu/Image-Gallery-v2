@@ -2,8 +2,10 @@
 
 import clientPromise from "@/lib/mongodb";
 import React, { useState } from 'react';
-import Modal from '@/app/components/modal';
+import EditModal from '@/app/components/editModal';
+import DeleteModal from '@/app/components/deleteModal';
 import { useRouter } from "next/navigation";
+import EditPictureColumn from "@/app/components/editPictureColumn";
 
 const updatePhoto = async (updatedData: {
     link: string;
@@ -29,6 +31,19 @@ const updatePhoto = async (updatedData: {
     console.log(data);
 };
 
+const deletePhoto = async (link: string) => {
+    const response = await fetch('/api/delete', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(link),
+    });
+
+    const data = await response.json();
+    console.log(data);
+}
+
 
 const EditThreeColumn = ({ columns }: { columns: { column0: any; column1: any; column2: any } }) => {
     let column0 = columns.column0;
@@ -47,15 +62,31 @@ const EditThreeColumn = ({ columns }: { columns: { column0: any; column1: any; c
     };
 
 
+    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+    const openDeleteModal = () => {
+        setDeleteModalOpen(true);
+    };
+
+    const closeDeleteModal = () => {
+        setDeleteModalOpen(false);
+    };
+
+
 
     const handleFormSubmit = (updatedFormData: any) => {
-        console.log("Form submitted with data: ", updatedFormData);
-
-        updatePhoto(updatedFormData).then( () => {
+        updatePhoto(updatedFormData).then(() => {
             router.push("/");
             router.refresh();
         });
     };
+
+    const handleImageDelete = (link: any) => {
+        deletePhoto(link).then(() => {
+            router.push("/");
+            router.refresh();
+        })
+    }
 
     const [presetValues, setPresetValues] = useState({
         link: "",
@@ -70,143 +101,80 @@ const EditThreeColumn = ({ columns }: { columns: { column0: any; column1: any; c
         featured: false
     });
 
+    const [link, setLink] = useState({
+        link: ""
+    });
+
 
     return (
         <div className="flex flex-row justify-between">
-            <div className="flex flex-col w-1/3 px-1">
-                {column0.map((photo: any, index: any) => (
-                    <div key={index} className="flex flex-col items-center mb-4">
-                        <a target="_blank" rel="noopener noreferrer">
-                            <img src={photo.Optimized} style={{ width: '100%' }} />
-                        </a>
-                        <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
-                            {photo.Model}, {photo.Lens}
-                            <br />
-                            {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                            <br />
-                            {photo.Location} <span>&#183;</span> {photo.Date}
-                        </figcaption>
-                        <figcaption className="w-full bg-teal-700">
-                            <button
-                                className="text-white text-sm p-2 text-center w-full cursor-pointer"
-                                onClick={() => {
-                                    setPresetValues({
-                                        link: photo.link,
-                                        Model: photo.Model,
-                                        Lens: photo.Lens,
-                                        Focal: photo.Focal,
-                                        FNumber: photo.Aperture,
-                                        Exposure: photo.Exposure,
-                                        ISO: photo.ISO,
-                                        location: photo.Location,
-                                        Label: photo.Label,
-                                        featured: photo.Featured
-                                    });
-                                    openEditModal();
-                                }
-                                }  // Triggers the modal
-                                style={{ border: 'none', background: 'none' }}  // Make it look like a regular figcaption
-                            >
-                                EDIT
-                            </button>
+            <EditPictureColumn
+                data={{
+                    "column": column0,
+                    "edit": {
+                        "setPresetValues": setPresetValues,
+                        "openEditModal": openEditModal,
+                        "setLink": setLink,
+                        "openDeleteModal": openDeleteModal,
+                        "isEditModalOpen": isEditModalOpen,
+                        "isDeleteModalOpen": isDeleteModalOpen,
+                        "EditModal": EditModal,
+                        "DeleteModal": DeleteModal,
+                        "closeEditModal": closeEditModal,
+                        "closeDeleteModal": closeDeleteModal,
+                        "handleFormSubmit": handleFormSubmit,
+                        "handleImageDelete": handleImageDelete,
+                        "presetValues": presetValues,
+                        "link": link.link
+                    }
+                }}
+            />
 
-                            {isEditModalOpen && (
-                                <Modal closeModal={closeEditModal} handleFormSubmit={handleFormSubmit} initialValues={presetValues} />
-                            )}
-                        </figcaption>
-                    </div>
-                ))}
-            </div>
+            <EditPictureColumn
+                data={{
+                    "column": column1,
+                    "edit": {
+                        "setPresetValues": setPresetValues,
+                        "openEditModal": openEditModal,
+                        "setLink": setLink,
+                        "openDeleteModal": openDeleteModal,
+                        "isEditModalOpen": isEditModalOpen,
+                        "isDeleteModalOpen": isDeleteModalOpen,
+                        "EditModal": EditModal,
+                        "DeleteModal": DeleteModal,
+                        "closeEditModal": closeEditModal,
+                        "closeDeleteModal": closeDeleteModal,
+                        "handleFormSubmit": handleFormSubmit,
+                        "handleImageDelete": handleImageDelete,
+                        "presetValues": presetValues,
+                        "link": link.link
+                    }
+                }}
+            />
+
+            <EditPictureColumn
+                data={{
+                    "column": column2,
+                    "edit": {
+                        "setPresetValues": setPresetValues,
+                        "openEditModal": openEditModal,
+                        "setLink": setLink,
+                        "openDeleteModal": openDeleteModal,
+                        "isEditModalOpen": isEditModalOpen,
+                        "isDeleteModalOpen": isDeleteModalOpen,
+                        "EditModal": EditModal,
+                        "DeleteModal": DeleteModal,
+                        "closeEditModal": closeEditModal,
+                        "closeDeleteModal": closeDeleteModal,
+                        "handleFormSubmit": handleFormSubmit,
+                        "handleImageDelete": handleImageDelete,
+                        "presetValues": presetValues,
+                        "link": link.link
+                    }
+                }}
+            />
 
 
-            <div className="flex flex-col w-1/3 px-1">
-                {column1.map((photo: any, index: any) => (
-                    <div key={index} className="flex flex-col items-center mb-4">
-                        <a target="_blank" rel="noopener noreferrer">
-                            <img src={photo.Optimized} style={{ width: '100%' }} />
-                        </a>
-                        <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
-                            {photo.Model}, {photo.Lens}
-                            <br />
-                            {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                            <br />
-                            {photo.Location} <span>&#183;</span> {photo.Date}
-                        </figcaption>
-                        <figcaption className="w-full bg-teal-700">
-                            <button
-                                className="text-white text-sm p-2 text-center w-full cursor-pointer"
-                                onClick={() => {
-                                    setPresetValues({
-                                        link: photo.link,
-                                        Model: photo.Model,
-                                        Lens: photo.Lens,
-                                        Focal: photo.Focal,
-                                        FNumber: photo.Aperture,
-                                        Exposure: photo.Exposure,
-                                        ISO: photo.ISO,
-                                        location: photo.Location,
-                                        Label: photo.Label,
-                                        featured: photo.Featured
-                                    });
-                                    openEditModal();
-                                }
-                                }  // Triggers the modal
-                                style={{ border: 'none', background: 'none' }}  // Make it look like a regular figcaption
-                            >
-                                EDIT
-                            </button>
-
-                            {isEditModalOpen && (
-                                <Modal closeModal={closeEditModal} handleFormSubmit={handleFormSubmit} initialValues={presetValues} />
-                            )}
-                        </figcaption>
-                    </div>
-                ))}
-            </div>
-            <div className="flex flex-col w-1/3 px-1">
-                {column2.map((photo: any, index: any) => (
-                    <div key={index} className="flex flex-col items-center mb-4">
-                        <a target="_blank" rel="noopener noreferrer">
-                            <img src={photo.Optimized} style={{ width: '100%' }} />
-                        </a>
-                        <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
-                            {photo.Model}, {photo.Lens}
-                            <br />
-                            {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                            <br />
-                            {photo.Location} <span>&#183;</span> {photo.Date}
-                        </figcaption>
-                        <figcaption className="w-full bg-teal-700">
-                            <button
-                                className="text-white text-sm p-2 text-center w-full cursor-pointer"
-                                onClick={() => {
-                                    setPresetValues({
-                                        link: photo.link,
-                                        Model: photo.Model,
-                                        Lens: photo.Lens,
-                                        Focal: photo.Focal,
-                                        FNumber: photo.Aperture,
-                                        Exposure: photo.Exposure,
-                                        ISO: photo.ISO,
-                                        location: photo.Location,
-                                        Label: photo.Label,
-                                        featured: photo.Featured
-                                    });
-                                    openEditModal();
-                                }
-                                }  // Triggers the modal
-                                style={{ border: 'none', background: 'none' }}  // Make it look like a regular figcaption
-                            >
-                                EDIT
-                            </button>
-
-                            {isEditModalOpen && (
-                                <Modal closeModal={closeEditModal} handleFormSubmit={handleFormSubmit} initialValues={presetValues} />
-                            )}
-                        </figcaption>
-                    </div>
-                ))}
-            </div>
         </div>
     );
 };
