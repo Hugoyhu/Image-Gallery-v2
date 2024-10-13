@@ -2,6 +2,10 @@ import clientPromise from "../lib/mongodb";
 import { userAgent } from "next/server";
 import { headers } from 'next/headers'
 import styles from './styles/styles.module.css';
+import LoginSignoutButton from '@/app/components/loginSignoutButton';
+import Header from '@/app/components/header';
+import SingleColumn from "./components/singleColumn";
+import EditSwitcher from "./components/edit";
 
 interface Image {
   _id: string;
@@ -58,7 +62,9 @@ export default async function Gallery(props: any) {
           "ISO": image.ISO,
           "Location": image.location,
           "Date": formatTimecode(String(image.Time)),
-          "Optimized": image.link.slice(0, 49) + "w_1200,f_auto/" + image.link.slice(49)
+          "Optimized": image.link.slice(0, 49) + "w_1200,f_auto/" + image.link.slice(49),
+          "Label": image.Label,
+          "Featured": String(image.featured)
         }
       )
     }
@@ -94,108 +100,19 @@ function generateHTML(numRows: number, column0: { [key: string]: any }[], column
   if (numRows == 3) {
     return (
       <div>
-        <div className="text-center p-8">
-          <h1 className="text-3xl font-bold">HUGO HU</h1>
+        <LoginSignoutButton />
+        <Header />
 
-          <h3>
-            <a href="https://www.hugohu.me" className="text-blue-500 underline">
-              https://www.hugohu.me
-            </a>
-          </h3>
-          <h3>
-            <a href="mailto:photography@hugohu.me" className="text-blue-500 underline">
-              photography@hugohu.me
-            </a>
-          </h3>
-        </div>
-
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-col w-1/3 px-1">
-            {column0.map((photo, index) => (
-              <div key={index} className="flex flex-col items-center mb-4">
-                <a href={photo.link} target="_blank" rel="noopener noreferrer">
-                  <img src={photo.Optimized} style={{ width: '100%' }} />
-                </a>
-                <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
-                  {photo.Model}, {photo.Lens}
-                  <br />
-                  {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                  <br />
-                  {photo.Location} <span>&#183;</span> {photo.Date}
-                </figcaption>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-col w-1/3 px-1">
-            {column1.map((photo, index) => (
-              <div key={index} className="flex flex-col items-center mb-4">
-                <a href={photo.link} target="_blank" rel="noopener noreferrer">
-                  <img src={photo.Optimized} style={{ width: '100%' }} />
-                </a>
-                <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
-                  {photo.Model}, {photo.Lens}
-                  <br />
-                  {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                  <br />
-                  {photo.Location} <span>&#183;</span> {photo.Date}
-                </figcaption>
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-col w-1/3 px-1">
-            {column2.map((photo, index) => (
-              <div key={index} className="flex flex-col items-center mb-4">
-                <a href={photo.link} target="_blank" rel="noopener noreferrer">
-                  <img src={photo.Optimized} style={{ width: '100%' }} />
-                </a>
-                <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
-                  {photo.Model}, {photo.Lens}
-                  <br />
-                  {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                  <br />
-                  {photo.Location} <span>&#183;</span> {photo.Date}
-                </figcaption>
-              </div>
-            ))}
-          </div>
-        </div>
+        <EditSwitcher columns={{"column0": column0, "column1": column1, "column2": column2}} />
       </div>
     );
   } else {
     return (
       <div>
-        <div className="text-center p-8">
-          <h1 className="text-3xl font-bold">HUGO HU</h1>
+        <LoginSignoutButton />
+        <Header />
 
-          <h3>
-            <a href="https://www.hugohu.me" className="text-blue-500 underline">
-              https://www.hugohu.me
-            </a>
-          </h3>
-          <h3>
-            <a href="mailto:photography@hugohu.me" className="text-blue-500 underline">
-              photography@hugohu.me
-            </a>
-          </h3>
-        </div>
-
-        <div>
-          {column0.map((photo, index) => (
-            <div key={index} className="flex flex-col items-center mb-4">
-              <a href={photo.link} target="_blank" rel="noopener noreferrer">
-                <img src={photo.Optimized} style={{ width: '100%' }} />
-              </a>
-              <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
-                {photo.Model}, {photo.Lens}
-                <br />
-                {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
-                <br />
-                {photo.Location} <span>&#183;</span> {photo.Date}
-              </figcaption>
-            </div>
-          ))}
-        </div>
+        <SingleColumn column0={column0} />
       </div>
     );
   }
