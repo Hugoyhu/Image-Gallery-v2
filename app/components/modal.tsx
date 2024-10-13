@@ -48,15 +48,15 @@ const Modal: React.FC<ModalProps> = ({ closeModal, handleFormSubmit, initialValu
     const onSubmit = (e: React.FormEvent) => {
         const formData = {
             link: initialValues.link,
-            Model: modelRef.current.value,
-            Lens: lensRef.current.value,
-            Focal: focalRef.current.value,
-            FNumber: apertureRef.current.value,
-            Exposure: exposureRef.current.value,
-            ISO: Number(isoRef.current.value),
-            location: locationRef.current.value,
-            Label: labelRef.current.value,
-            featured: Boolean(featuredRef.current.value),
+            Model: modelRef.current?.value || "",
+            Lens: lensRef.current?.value || "",
+            Focal: focalRef.current?.value || "",
+            FNumber: apertureRef.current?.value || "",
+            Exposure: exposureRef.current?.value || "",
+            ISO: Number(isoRef.current?.value) || 0,
+            location: locationRef.current?.value || "",
+            Label: labelRef.current?.value || "",
+            featured: Boolean(featuredRef.current?.value) || false,
         };
 
         handleFormSubmit(formData);
