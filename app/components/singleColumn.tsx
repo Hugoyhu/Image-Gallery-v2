@@ -1,6 +1,8 @@
 // mobile version
 
-const SingleColumn = (column0: any) => {
+const SingleColumn = ({ columns }: { columns: { column0: any } }) => {
+    let column0 = columns.column0;
+    
     return (
         <div>
             {column0.map((photo: any, index: any) => (

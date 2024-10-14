@@ -13,7 +13,7 @@ const ThreeColumn = ({ columns }: { columns: { column0: any; column1: any; colum
                         <a href={photo.link} target="_blank" rel="noopener noreferrer">
                             <img src={photo.Optimized} style={{ width: '100%' }} />
                         </a>
-                        <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
+                        <figcaption className="bg-black text-white text-sm p-2 text-center w-full">
                             {photo.Model}, {photo.Lens}
                             <br />
                             {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
@@ -30,7 +30,7 @@ const ThreeColumn = ({ columns }: { columns: { column0: any; column1: any; colum
                         <a href={photo.link} target="_blank" rel="noopener noreferrer">
                             <img src={photo.Optimized} style={{ width: '100%' }} />
                         </a>
-                        <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
+                        <figcaption className="bg-black text-white text-sm p-2 text-center w-full">
                             {photo.Model}, {photo.Lens}
                             <br />
                             {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
@@ -46,7 +46,7 @@ const ThreeColumn = ({ columns }: { columns: { column0: any; column1: any; colum
                         <a href={photo.link} target="_blank" rel="noopener noreferrer">
                             <img src={photo.Optimized} style={{ width: '100%' }} />
                         </a>
-                        <figcaption className="bg-black text-white italic text-sm p-2 text-center w-full">
+                        <figcaption className="bg-black text-white text-sm p-2 text-center w-full">
                             {photo.Model}, {photo.Lens}
                             <br />
                             {photo.Focal} <span>&#183;</span> {photo.Aperture} <span>&#183;</span> {photo.Exposure}s <span>&#183;</span> ISO {photo.ISO}
