@@ -114,9 +114,7 @@ function generateHTML(numRows: number, column0: { [key: string]: any }[], column
   } else {
     return (
       <div>
-        <LoginSignoutButton />
         <Header />
-        <ButtonRow />
 
         <SingleColumn columns={{"column0": column0}} />
       </div>
