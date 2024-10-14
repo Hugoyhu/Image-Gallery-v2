@@ -6,6 +6,7 @@ import LoginSignoutButton from '@/app/components/loginSignoutButton';
 import Header from '@/app/components/header';
 import SingleColumn from "./components/singleColumn";
 import EditSwitcher from "./components/edit";
+import ButtonRow from "./components/selectButtons";
 
 interface Image {
   _id: string;
@@ -69,8 +70,11 @@ export default async function Gallery(props: any) {
       )
     }
 
+
     if (deviceType == 'mobile') {
       // one column only
+      // return generateHTML(1, photoList, [], []);
+      
       return generateHTML(1, photoList, [], []);
     } else {
       let column0 = [];
@@ -102,6 +106,7 @@ function generateHTML(numRows: number, column0: { [key: string]: any }[], column
       <div>
         <LoginSignoutButton />
         <Header />
+        <ButtonRow />
 
         <EditSwitcher columns={{"column0": column0, "column1": column1, "column2": column2}} />
       </div>
@@ -111,8 +116,9 @@ function generateHTML(numRows: number, column0: { [key: string]: any }[], column
       <div>
         <LoginSignoutButton />
         <Header />
+        <ButtonRow />
 
-        <SingleColumn column0={column0} />
+        <SingleColumn columns={{"column0": column0}} />
       </div>
     );
   }
