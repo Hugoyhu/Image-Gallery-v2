@@ -106,7 +106,7 @@ function generateHTML(numRows: number, column0: { [key: string]: any }[], column
       <div>
         <LoginSignoutButton />
         <Header />
-        <ButtonRow />
+        
 
         <EditSwitcher columns={{"column0": column0, "column1": column1, "column2": column2}} />
       </div>
