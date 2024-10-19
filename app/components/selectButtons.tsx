@@ -6,9 +6,9 @@ const SingleButton = ({ name, page, highlight }: { name: string; page: string; h
   let css = "";
 
   if (page == highlight) {
-    css = "w-full px-4 py-2 bg-rose-400 hover:bg-red-400 text-white rounded";
+    css = "w-full px-4 py-2 bg-rose-400 hover:bg-red-400 text-white text-base rounded";
   } else {
-    css = "w-full px-4 py-2 bg-cyan-700 hover:bg-teal-700 text-white rounded"
+    css = "w-full px-4 py-2 bg-cyan-700 hover:bg-teal-700 text-white text-base rounded"
   }
 
   return (
