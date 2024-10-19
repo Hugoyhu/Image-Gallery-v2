@@ -12,12 +12,14 @@ export async function PUT(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    updatedData.featured = updatedData.featured === "true";
+
     try {
         const client = await clientPromise;
         const db = client.db("Image-Gallery");
         const result = await db.collection("image-gallery").updateOne(
             { link: updatedData.link }, 
-            { $set: updatedData }
+            { $set: updatedData },
         );
 
         if (result.modifiedCount > 0) {

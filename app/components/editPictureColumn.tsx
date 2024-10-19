@@ -14,7 +14,7 @@ const EditPictureColumn = ({ data } : {
                 ISO: number;
                 location: string;
                 Label: string;
-                featured: boolean;
+                featured: string;
             }>) => void,
             openEditModal: () => void,
             setLink: (value: React.SetStateAction<{
@@ -39,7 +39,7 @@ const EditPictureColumn = ({ data } : {
                 ISO: number;
                 location: string;
                 Label: string;
-                featured: boolean;
+                featured: string;
             },
             link: string
         }

@@ -11,7 +11,7 @@ export interface editProps {
             ISO: number;
             location: string;
             Label: string;
-            featured: boolean;
+            featured: string;
         }) => void;
     initialValues: {
         link: string;
@@ -23,7 +23,7 @@ export interface editProps {
         ISO: number;
         location: string;
         Label: string;
-        featured: boolean;
+        featured: string;
     };
 }
 

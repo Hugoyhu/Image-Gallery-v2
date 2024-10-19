@@ -1,10 +1,8 @@
-import { useState, useRef } from 'react';
-import { useRouter } from "next/navigation";
+import { useRef } from 'react';
 import { editProps } from "@/app/components/props/propInterface"
 
 
 const editModal: React.FC<editProps> = ({ closeModal, handleFormSubmit, initialValues }) => {
-    const router = useRouter();
 
     const modelRef = useRef<HTMLInputElement>(null);
     const lensRef = useRef<HTMLInputElement>(null);
@@ -28,7 +26,7 @@ const editModal: React.FC<editProps> = ({ closeModal, handleFormSubmit, initialV
             
             location: locationRef.current?.value || "",
             Label: labelRef.current?.value || "",
-            featured: Boolean(featuredRef.current?.value) || false,
+            featured: featuredRef.current?.value || "",
         };
 
         handleFormSubmit(formData);
@@ -125,7 +123,7 @@ const editModal: React.FC<editProps> = ({ closeModal, handleFormSubmit, initialV
                         <label className="block text-gray-700">Featured?</label>
                         <input
                             type="text"
-                            defaultValue={String(initialValues.featured)}
+                            defaultValue={initialValues.featured}
                             ref={featuredRef}
                             className="w-full p-2 border rounded"
                             required

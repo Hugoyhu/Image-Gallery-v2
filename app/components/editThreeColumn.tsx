@@ -17,8 +17,9 @@ const updatePhoto = async (updatedData: {
     ISO: number;
     location: string;
     Label: string;
-    featured: boolean;
+    featured: string;
 }) => {
+    
     const response = await fetch('/api/photos', {
         method: 'PUT',
         headers: {
@@ -96,7 +97,7 @@ const EditThreeColumn = ({ columns }: { columns: { column0: any; column1: any; c
         ISO: 0,
         location: "",
         Label: "",
-        featured: false
+        featured: ""
     });
 
     const [link, setLink] = useState({
