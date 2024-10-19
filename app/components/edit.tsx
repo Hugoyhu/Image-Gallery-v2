@@ -1,7 +1,7 @@
 // pulls up editing vs standard view depending on auth status
 
 "use client";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import ThreeColumn from "@/app/components/threeColumn";
 import EditThreeColumn from "./editThreeColumn";

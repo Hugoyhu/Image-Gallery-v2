@@ -76,14 +76,12 @@ const EditThreeColumn = ({ columns }: { columns: { column0: any; column1: any; c
 
     const handleFormSubmit = (updatedFormData: any) => {
         updatePhoto(updatedFormData).then(() => {
-            router.push("/");
             router.refresh();
         });
     };
 
     const handleImageDelete = (link: any) => {
         deletePhoto(link).then(() => {
-            router.push("/");
             router.refresh();
         })
     }

@@ -1,15 +1,22 @@
 "use client"
 import { useRouter } from 'next/navigation';
 
-const SingleButton = ({ name, query }: { name: string; query: string }) => {
+const SingleButton = ({ name, page, highlight }: { name: string; page: string; highlight: string }) => {
   const router = useRouter();
+  let css = "";
+
+  if (page == highlight) {
+    css = "w-full px-4 py-2 bg-rose-400 hover:bg-red-400 text-white rounded";
+  } else {
+    css = "w-full px-4 py-2 bg-cyan-700 hover:bg-teal-700 text-white rounded"
+  }
 
   return (
     <button
-      className="w-full px-4 py-2 bg-cyan-700 hover:bg-teal-700 text-white rounded"
+      className={css}
       onClick={() => {
         // Navigate with query parameters
-        router.push("/?sort="+query);
+        router.push("/gallery/" + page);
       }}
     >
       {name}
@@ -18,18 +25,19 @@ const SingleButton = ({ name, query }: { name: string; query: string }) => {
 };
 
 
-const ButtonRow = () => {
+const ButtonRow = ({ highlight }: { highlight: string }) => {
   return (
     <div className="flex justify-between space-x-4 px-4 py-4">
-      <SingleButton name="Everything" query="all" />
-      <SingleButton name="Featured" query="featured" />
-      <SingleButton name="Landscape" query="landscape" />
-      <SingleButton name="Birds" query="birds" />
-      <SingleButton name="Wildlife" query="wildlife" />
-      <SingleButton name="City" query="featured" />
-      <SingleButton name="Astro" query="landscape" />
-      <SingleButton name="Botanical Garden" query="macro" />
-      <br/>
+      <SingleButton name="Everything" page="everything" highlight={highlight} />
+      <SingleButton name="Featured" page="featured" highlight={highlight} />
+      <SingleButton name="Landscape" page="landscape" highlight={highlight} />
+      <SingleButton name="Birds" page="birds" highlight={highlight} />
+      <SingleButton name="Animals" page="animals" highlight={highlight} />
+      <SingleButton name="City" page="city" highlight={highlight} />
+      <SingleButton name="Astro" page="astro" highlight={highlight} />
+      <SingleButton name="Craft" page="craft" highlight={highlight} />
+      <SingleButton name="Botanical Garden" page="macro" highlight={highlight} />
+      <br />
     </div>
   );
 };
