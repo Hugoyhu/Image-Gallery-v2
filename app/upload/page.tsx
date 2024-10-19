@@ -50,7 +50,7 @@ export default function Home() {
                                 />
                                 <input
                                     type="text"
-                                    placeholder="Category"
+                                    placeholder="Featured?"
                                     defaultValue="false"
                                     value={featured}
                                     onChange={(e) => setFeatured(e.target.value)}
