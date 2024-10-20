@@ -20,7 +20,11 @@ export async function POST(request: Request) {
         const file = formData.get('file') as File;
         const location = formData.get('location') as string;
         const label = formData.get('label') as string;
-        const featured = Boolean(formData.get('featured')) as boolean;
+
+        const featuredValue = formData.get('featured');
+        const featured = featuredValue === "true";
+
+        console.log(location, label, featured);
 
         if (!file) {
             return Response.json({ error: 'No file uploaded' }, { status: 400 });

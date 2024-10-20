@@ -6,8 +6,7 @@ import { useSession } from "next-auth/react";
 
 const TITLE = "Upload Image";
 
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/lib/auth';
+
 import LoginSignoutButton from "../components/loginSignoutButton";
 
 export default function Home() {
